@@ -16,7 +16,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(root, 'index.html'),
-        clinicaltrials: resolve(root, 'clinical', 'index.html'),
+        clinical: resolve(root, 'clinical', 'index.html'),
       }
     }
   }
