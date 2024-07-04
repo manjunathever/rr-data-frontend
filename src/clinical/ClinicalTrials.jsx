@@ -13,7 +13,7 @@ function ClinicalTrials()  {
 
     const handleFilter = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/clinical/filter', {
+            const response = await axios.post('http://localhost:5000/clinical/', {
                 column_name: columnName,
                 search_term: searchTerm
             });
@@ -38,7 +38,7 @@ function ClinicalTrials()  {
                 <select className= "search-container-child" value={columnName} onChange={e => setColumnName(e.target.value)}>
                     <option value="">Select Criteria</option>
                     <option value="NCT Number">NCT Number</option>
-                    <option value="Phase">Phase</option>
+                    <option value="Phases">Phases</option>
                     <option value="Study Title">Study Title</option>
                 </select>
                 <input 
