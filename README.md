@@ -1,5 +1,8 @@
-# R&R Data Explorer
+# React + Vite
 
-  
-![Screenshot (309)](https://github.com/manjunathBase2/RR_WebApp/assets/146637969/8591402d-d870-46fb-81cb-6eae1ef04131)
-![Screenshot (310)](https://github.com/manjunathBase2/RR_WebApp/assets/146637969/7f48300e-8432-42fe-b9b9-1fafd9179223)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
