@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Header2 from './Header2';
-import Footer from '../Footer';
+// import Footer from '../Footer';
 import axios from 'axios';
 import '../index.css';
-import Roche_logo from '../assets/Roche_Logo.png';
+// import Roche_logo from '../assets/Roche_Logo.png';
 
 function ClinicalTrials() {
     const [columnName, setColumnName] = useState('');
@@ -13,7 +13,7 @@ function ClinicalTrials() {
 
     const handleFilter = async () => {
         try {
-            const response = await axios.post(`http://localhost:5000/clinical/`, {
+            const response = await axios.post(`http://192.168.56.1:5000/clinical/`, {
                 column_name: columnName,
                 search_term: searchTerm
             });
