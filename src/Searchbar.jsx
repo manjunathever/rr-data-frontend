@@ -43,7 +43,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
             }
 
             try {
-                const response = await axios.post('http://10.146.77.154:5000/get_columns', { file_path: filePath });
+                const response = await axios.post('https://3514-152-59-197-125.ngrok-free.app/get_columns', { file_path: filePath });
                 console.log("Fetched columns:", response.data.columns);  // Log the response for debugging
                 setAvailableColumns(response.data.columns);
             } catch (error) {
@@ -91,7 +91,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
         }
 
         try {
-            const response = await axios.get('http://10.146.77.154:5000/autosuggest', {
+            const response = await axios.get('https://3514-152-59-197-125.ngrok-free.app/autosuggest', {
                 params: { query: value, column_name: searchType, file_path: filePath }
             });
             setSuggestions(response.data);
@@ -168,7 +168,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
         console.log("Search Data:", searchData);
 
         try {
-            const response = await axios.post('http://10.146.77.154:5000/filter', searchData);
+            const response = await axios.post('https://3514-152-59-197-125.ngrok-free.app/filter', searchData);
             console.log("Response Data:", response.data);
 
             if (response.data.results.length === 0) {
