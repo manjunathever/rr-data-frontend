@@ -13,7 +13,7 @@ function ClinicalTrials() {
 
     const handleFilter = async () => {
         try {
-            const response = await axios.post(`https://rr-data-backend-6wizp7cbq-manjunaths-projects-bf8fe951.vercel.app/clinical/`, {
+            const response = await axios.post(`https://rr-data-backend.vercel.app/clinical/`, {
                 column_name: columnName,
                 search_term: searchTerm
             });
