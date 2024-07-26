@@ -5,8 +5,8 @@ import Card from "./Card.jsx";
 import Card2 from "./Card2.jsx";
 import Searchbar from './Searchbar.jsx';
 import Resulttable from './Resulttable.jsx';
-// import Footer from './Footer.jsx';
-// import Roche_logo from "./assets/Roche_Logo.png"
+import Footer from './Footer.jsx';
+import Roche_logo from "./assets/Roche_Logo.png"
 
 function App() {
     const [selectedCountry, setSelectedCountry] = useState(null);
@@ -34,7 +34,7 @@ function App() {
         <>
             <div className="container">
                 <div className="header-container">
-                    {/* <img src={Roche_logo} className="logo" alt="Logo" /> */}
+                    <img src={Roche_logo} className="logo" alt="Logo" /> 
                     <Header />
                     <nav>
                         <ul>
@@ -72,7 +72,7 @@ function App() {
                 <div className='results'>
                     {results.length > 0 ? <Resulttable results={results} /> : <p></p>}
                 </div>
-                {/* <Footer /> */}
+                <Footer />
             </div>
         </>
     );
