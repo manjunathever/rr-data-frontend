@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Autosuggest from 'react-autosuggest';
+// import Autosuggest from 'react-autosuggest';
 
 function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     const [searchType, setSearchType] = useState('Product Name');
@@ -204,7 +204,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
                             {availableColumns.includes("Therapeutic Area") && <option value="Therapeutic Area">Therapeutic Area</option>}
                         </select>
                     </div>
-                        <Autosuggest
+                        {/* <Autosuggest
                             suggestions={suggestions}
                             onSuggestionsFetchRequested={fetchSuggestions}
                             onSuggestionsClearRequested={clearSuggestions}
@@ -212,7 +212,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
                             renderSuggestion={renderSuggestion}
                             inputProps={inputProps}
                             className="searchbar-input-text"
-                        />
+                        /> */}
                 </div>
                 <div className="searchbar-right">
                     <div>
