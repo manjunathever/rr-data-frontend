@@ -1,83 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
+import combinedData from './assets/combined_data.json'; // Adjust the path as necessary
+import columnsData from './assets/columns.json'; // Adjust the path as necessary
 
 function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     const [searchType, setSearchType] = useState('Product Name');
     const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(false);
     const [availableColumns, setAvailableColumns] = useState(["Product Name", "Active Substance", "Therapeutic Area"]); // Default options
-    const [suggestions, setSuggestions] = useState([]);
-    const [data, setData] = useState({});
+    // const [suggestions, setSuggestions] = useState([]);
+    // const [data, setData] = useState({});
+
+    // useEffect(() => {
+    //     fetch('./combined_data.json')
+    //         .then(response => response.json())
+    //         .then(data => setData(data))
+    //         .catch(error => console.error('Error fetching the JSON data:', error));
+    // }, []);
 
     useEffect(() => {
-        fetch('/combined_data')
-            .then(response => response.json())
-            .then(data => setData(data))
-            .catch(error => console.error('Error fetching the JSON data:', error));
-    }, []);
-
-    useEffect(() => {
-        const fetchColumns = async () => {
+        const fetchColumns = () => {
             if (!selectedCountry || !cardType) return;
 
-            let filePath;
+            let fileKey;
             if (cardType === 'MA' && selectedCountry === 'Germany') {
-                filePath = "1";
+                fileKey = "Germany_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Germany') {
-                filePath = "2";
+                fileKey = "Germany_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'European Union') {
-                filePath = "3";
+                fileKey = "Europe_MA.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'USA') {
-                filePath = "4";
+                fileKey = "USA_MA.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Scotland') {
-                filePath = "5";
+                fileKey = "Scotland_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Scotland') {
-                filePath = "6";
+                fileKey = "Scotland_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Australia') {
-                filePath = "7";
+                fileKey = "Australia_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Australia') {
-                filePath = "8";
+                fileKey = "Australia_Reimbursement.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'UK') {
-                filePath = "9";
+                fileKey = "UK_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'UK') {
-                filePath = "10";
+                fileKey = "UK_MA.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'France') {
-                filePath = "11";
+                fileKey = "France_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'France') {
-                filePath = "12";
+                fileKey = "France_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Spain') {
-                filePath = "13";
+                fileKey = "Spain_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Spain') {
-                filePath = "14";
+                fileKey = "Spain_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Sweden') {
-                filePath = "15";
+                fileKey = "Sweden_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Sweden') {
-                filePath = "16";
+                fileKey = "Sweden_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Canada') {
-                filePath = "17";
+                fileKey = "Canada_MA.xlsx";
             } else if (cardType === 'Reimbursement' && selectedCountry === 'Canada') {
-                filePath = "18";
+                fileKey = "Canada_Reimbursement.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'South Korea') {
-                filePath = "19";
+                fileKey = "South Korea_MA.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Italy') {
-                filePath = "20";
+                fileKey = "Italy_MA.xlsx";
             } else if (cardType === 'MA' && selectedCountry === 'Brazil') {
-                filePath = "21";
+                fileKey = "Brazil_MA.xlsx";
             } else {
                 alert("Invalid card type.");
                 return;
             }
 
-            try {
-                const response = await axios.post('https://rr-backend-m7hi.onrender.com/get_columns', { file_path: filePath });
-                console.log("Fetched columns:", response.data.columns);  // Log the response for debugging
-                setAvailableColumns(response.data.columns);
-            } catch (error) {
-                console.error("There was an error fetching columns:", error);
-            }
+            const columns = columnsData[fileKey] || [];
+            setAvailableColumns(columns);
         };
 
         fetchColumns();
@@ -86,37 +84,29 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     const handleSearchTypeChange = (e) => {
         setSearchType(e.target.value);
         setSearchQuery('');
-    };
-
-    const handleSearchQueryChange = (e, { newValue }) => {
-        setSearchQuery(newValue);
-    };
-
-    const fetchSuggestions = ({ value }) => {
-        if (!data[searchType]) return;
-        const filteredSuggestions = data[searchType].filter(item =>
-            item.toLowerCase().includes(value.toLowerCase())
-        );
-        setSuggestions(filteredSuggestions);
-    };
-
-    const clearSuggestions = () => {
         setSuggestions([]);
     };
 
-    const getSuggestionValue = suggestion => suggestion;
+    const getFilteredSuggestions = (query) => {
+        if (!query) return [];
+        return combinedData[searchType]?.filter(item => item.toLowerCase().includes(query.toLowerCase())) || [];
+    };
 
-    const renderSuggestion = suggestion => (
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getFilteredSuggestions(value));
+    };
+
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([]);
+    };
+
+    const getSuggestionValue = (suggestion) => suggestion;
+
+    const renderSuggestion = (suggestion) => (
         <div className="suggestion-item">
             {suggestion}
         </div>
     );
-
-    const inputProps = {
-        placeholder: `Search by ${searchType}`,
-        value: searchQuery,
-        onChange: handleSearchQueryChange
-    };
 
     const handleSearch = async () => {
         if (!selectedCountry) {
@@ -216,6 +206,12 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
             handleSearch();
         }
     };
+    const inputProps = {
+        placeholder: 'Enter search query',
+        value: searchQuery,
+        onChange: (e, { newValue }) => setSearchQuery(newValue),
+        onKeyDown: handleKeyDown
+    };
 
     return (
         <>
@@ -228,15 +224,15 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
                             onChange={handleSearchTypeChange}
                             className="searchbar-dropdown"
                         >
-                            {availableColumns.includes("Product Name") && <option value="Product Name">Product Name</option>}
-                            {availableColumns.includes("Active Substance") && <option value="Active Substance">Active Substance</option>}
-                            {availableColumns.includes("Therapeutic Area") && <option value="Therapeutic Area">Therapeutic Area</option>}
+                            {availableColumns.map((column) => (
+                                <option key={column} value={column}>{column}</option>
+                            ))}
                         </select>
                     </div>
                         <Autosuggest
                             suggestions={suggestions}
-                            onSuggestionsFetchRequested={fetchSuggestions}
-                            onSuggestionsClearRequested={clearSuggestions}
+                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={onSuggestionsClearRequested}
                             getSuggestionValue={getSuggestionValue}
                             renderSuggestion={renderSuggestion}
                             inputProps={inputProps}
