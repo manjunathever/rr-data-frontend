@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Header2 from './Header2';
-import Footer from '../Footer';
+// import Footer from '../Footer';
 import axios from 'axios';
 import '../index.css';
-import Roche_logo from '../assets/Roche_Logo.png';
+// import Roche_logo from '../assets/Roche_Logo.png';
 
 function ClinicalTrials() {
     const [columnName, setColumnName] = useState('');
@@ -34,7 +34,7 @@ function ClinicalTrials() {
     return (
         <div className='clinical-container'>
             <div className="header-container">
-                <img src={Roche_logo} className="logo" alt="Logo" />
+                {/* <img src={Roche_logo} className="logo" alt="Logo" /> */}
                 <Header2 />
                 <nav>
                     <ul>
@@ -89,7 +89,7 @@ function ClinicalTrials() {
                     <p></p>
                 )}
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
