@@ -13,7 +13,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     const [data, setData] = useState({});
 
     useEffect(() => {
-        fetch('https://rr-backend-m7hi.onrender.com/combined_data.json')
+        fetch('https://rr-backend-m7hi.onrender.com/combined_data')
             .then(response => response.json())
             .then(data => setData(data))
             .catch(error => console.error('Error fetching the JSON data:', error));
