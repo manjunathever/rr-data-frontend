@@ -12,15 +12,6 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(false);
     const [availableColumns, setAvailableColumns] = useState(["Product Name", "Active Substance", "Therapeutic Area"]); // Default options
-    // const [suggestions, setSuggestions] = useState([]);
-    // const [data, setData] = useState({});
-
-    // useEffect(() => {
-    //     fetch('./combined_data.json')
-    //         .then(response => response.json())
-    //         .then(data => setData(data))
-    //         .catch(error => console.error('Error fetching the JSON data:', error));
-    // }, []);
 
     useEffect(() => {
         const fetchColumns = () => {
@@ -88,8 +79,9 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
     };
 
     const getFilteredSuggestions = (query) => {
-        if (!query) return [];
-        return combinedData[searchType]?.filter(item => item.toLowerCase().includes(query.toLowerCase())) || [];
+        if (!query || !selectedCountry || !cardType) return [];
+        const data = combinedData[selectedCountry]?.[cardType]?.[searchType] || [];
+        return data.filter(item => item.toLowerCase().includes(query.toLowerCase()));
     };
 
     const onSuggestionsFetchRequested = ({ value }) => {
@@ -180,7 +172,7 @@ function Searchbar({ onResultsFetched, selectedCountry, cardType }) {
         console.log("Search Data:", searchData);
 
         try {
-            const response = await axios.post('https://rr-backend-m7hi.onrender.com/filter', searchData);
+            const response = await axios.post('http://localhost:5000/filter', searchData);
             console.log("Response Data:", response.data);
 
             if (response.data.results.length === 0) {
