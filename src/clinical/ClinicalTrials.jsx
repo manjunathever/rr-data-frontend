@@ -17,8 +17,8 @@ function ClinicalTrials() {
                 // `http://localhost:5000/clinical/`,
                 // `http://10.146.71.0:5000/clinical/`,
                 // `/clinical/`,
-                // `https://rr-backend-m7hi.onrender.com/clinical/`,
-                `https://rr-data-backend.vercel.app/clinical/`,
+                `https://rr-backend-m7hi.onrender.com/clinical/`,
+                // `https://rr-data-backend.vercel.app/clinical/`,
             {
                 column_name: columnName,
                 search_term: searchTerm
